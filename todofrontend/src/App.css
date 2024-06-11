@@ -1,5 +1,48 @@
+@font-face {
+  font-family: "SF-Regular";
+  src: url("./assets/fonts/SF-Pro-Display-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF-Black";
+  src: url("./assets/fonts/SF-Pro-Display-Black.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF-Light";
+  src: url("./assets/fonts/SF-Pro-Display-Light.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF-Medium";
+  src: url("./assets/fonts/SF-Pro-Display-Medium.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF-Bold";
+  src: url("./assets/fonts/SF-Pro-Display-Bold.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "SF-Heavy";
+  src: url("./assets/fonts/SF-Pro-Display-Heavy.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .App {
   text-align: center;
+  font-family: "SF-Regular";
 }
 
 .App-logo {
