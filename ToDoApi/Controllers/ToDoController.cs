@@ -30,5 +30,50 @@ namespace ToDoApi.Controllers
 
             return BadRequest("Object Instance not set");
         }
+
+        //Get All ToDos
+        [HttpGet]
+        public async Task<ActionResult<List<ToDo>>> GetToDos(){
+            var todos = await toDoDbContext.Items.ToListAsync();
+            return Ok(todos);
+        }
+
+        //Get Specific Item
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<ToDo>> GetToDo(int id){
+            var todo = await toDoDbContext.Items.FirstOrDefaultAsync(e => e.ID == id);
+            if(todo != null){
+                return Ok(todo);
+            }
+
+            return NotFound("ToDo does not exist");
+        }
+
+        //Update ToDo
+        [HttpPut]
+        public async Task<ActionResult<ToDo>> UpdateToDo(ToDo updatedToDo){
+            if(updatedToDo != null){
+                var todo = await toDoDbContext.Items.FirstOrDefaultAsync(e => e.ID == updatedToDo.ID);
+                todo!.Title = updatedToDo.Title;
+                todo.Description = updatedToDo.Description;
+                await toDoDbContext.SaveChangesAsync();
+                return Ok(todo);
+            }
+
+            return BadRequest("User not found");
+        }
+
+        //Delete
+        [HttpDelete]
+        public async Task<ActionResult<ToDo>> DeleteUser(int id){
+            var todo = await toDoDbContext.Items.FirstOrDefaultAsync(e => e.ID == id);
+            if(todo != null){
+                toDoDbContext.Items.Remove(todo);
+                await toDoDbContext.SaveChangesAsync();
+                return Ok(await toDoDbContext.Items.ToListAsync());
+            }
+
+            return NotFound();
+        }
     }
 }
