@@ -1,7 +1,7 @@
 // src/todoService.ts
 
 interface ToDo {
-  id: number;
+  id?: number;
   title: string;
   description: string;
 }
@@ -24,7 +24,7 @@ export const getToDo = async (id: number): Promise<ToDo> => {
   return response.json();
 };
 
-export const addToDo = async (todo: ToDo): Promise<ToDo[]> => {
+export const addToDo = async (todo: ToDo): Promise<ToDo> => {
   const response = await fetch(API_BASE_URL, {
     method: "POST",
     headers: {
@@ -52,13 +52,13 @@ export const updateToDo = async (todo: ToDo): Promise<ToDo> => {
   return response.json();
 };
 
-export const deleteToDo = async (id: number): Promise<ToDo[]> => {
-  const response = await fetch(API_BASE_URL, {
+export const deleteToDo = async (todo: ToDo): Promise<ToDo[]> => {
+  const response = await fetch(`${API_BASE_URL}/${todo.id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ id }),
+    body: JSON.stringify(todo),
   });
   if (!response.ok) {
     throw new Error("Failed to delete todo");

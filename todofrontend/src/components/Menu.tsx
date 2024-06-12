@@ -6,11 +6,13 @@ import MenuItem from "./MenuItem";
 interface MenuProps {
   selectedMenuItem: string | null;
   setSelectedMenuItem: (name: string) => void;
+  addTask: () => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
   selectedMenuItem,
   setSelectedMenuItem,
+  addTask,
 }) => {
   const handleMenuItemClick = (name: string) => {
     setSelectedMenuItem(name);
@@ -25,16 +27,16 @@ const Menu: React.FC<MenuProps> = ({
       <Content>
         <Title>TASKS</Title>
         <MenuItem
-          name="To Do"
-          color="hsl(0, 100%, 50%)"
-          selected={selectedMenuItem === "tToDo"}
-          onClick={() => handleMenuItemClick("tToDo")}
+          name="All tasks"
+          color="green"
+          selected={selectedMenuItem === "tAll"}
+          onClick={() => handleMenuItemClick("tAll")}
         />
         <MenuItem
-          name="In Progress"
-          color="yellow"
-          selected={selectedMenuItem === "tInProgress"}
-          onClick={() => handleMenuItemClick("tInProgress")}
+          name="To Do"
+          color="green"
+          selected={selectedMenuItem === "tToDo"}
+          onClick={() => handleMenuItemClick("tToDo")}
         />
         <MenuItem
           name="Completed"
@@ -42,7 +44,25 @@ const Menu: React.FC<MenuProps> = ({
           selected={selectedMenuItem === "tCompleted"}
           onClick={() => handleMenuItemClick("tCompleted")}
         />
-        <MenuButton>
+        <MenuItem
+          name="High"
+          color="#ff4d4d"
+          selected={selectedMenuItem === "pHigh"}
+          onClick={() => handleMenuItemClick("pHigh")}
+        />
+        <MenuItem
+          name="Medium"
+          color="#ffff5a"
+          selected={selectedMenuItem === "pMedium"}
+          onClick={() => handleMenuItemClick("pMedium")}
+        />
+        <MenuItem
+          name="Low"
+          color="#42ff42"
+          selected={selectedMenuItem === "pLow"}
+          onClick={() => handleMenuItemClick("pLow")}
+        />
+        <MenuButton onClick={addTask}>
           <PlusIcon />
           <span>Add New Task</span>
         </MenuButton>
@@ -92,8 +112,9 @@ const Heading = styled.div`
   /* background-color: aqua; */
 
   h2 {
-    font-family: "SF-Regular";
+    font-family: "SF-Medium";
     font-weight: normal;
+    color: #535353;
   }
 `;
 
@@ -118,6 +139,7 @@ const Content = styled.div`
 const Title = styled.span`
   font-family: "SF-Black";
   font-size: 12px;
+  color: #535353;
 `;
 
 const MenuButton = styled.button`
@@ -138,7 +160,7 @@ const MenuButton = styled.button`
 
   span {
     font-family: "SF-Bold";
-    color: #444;
+    color: #535353;
   }
 `;
 

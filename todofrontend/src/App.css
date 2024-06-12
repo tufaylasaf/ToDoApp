@@ -40,6 +40,10 @@
   font-style: normal;
 }
 
+* {
+  overflow: hidden;
+}
+
 .App {
   text-align: center;
   font-family: "SF-Regular";

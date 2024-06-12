@@ -25,7 +25,7 @@ namespace ToDoApi.Controllers
             {
                 toDoDbContext.Items.Add(toDo);
                 await toDoDbContext.SaveChangesAsync();
-                return Ok(await toDoDbContext.Items.ToListAsync());
+                return Ok(toDo);
             }
 
             return BadRequest("Object Instance not set");
@@ -64,7 +64,7 @@ namespace ToDoApi.Controllers
         }
 
         //Delete
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<ToDo>> DeleteUser(int id){
             var todo = await toDoDbContext.Items.FirstOrDefaultAsync(e => e.ID == id);
             if(todo != null){

@@ -13,7 +13,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   name,
   color,
   selected = false,
-  total = 12,
+  total = 0,
   onClick,
 }) => {
   return (
