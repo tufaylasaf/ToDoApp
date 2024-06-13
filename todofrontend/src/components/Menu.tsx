@@ -7,17 +7,15 @@ interface MenuProps {
   selectedMenuItem: string | null;
   setSelectedMenuItem: (name: string) => void;
   addTask: () => void;
+  handleMenuItemClick: (name: string) => void;
 }
 
 const Menu: React.FC<MenuProps> = ({
   selectedMenuItem,
   setSelectedMenuItem,
   addTask,
+  handleMenuItemClick,
 }) => {
-  const handleMenuItemClick = (name: string) => {
-    setSelectedMenuItem(name);
-  };
-
   return (
     <Container>
       <Heading>
@@ -28,15 +26,15 @@ const Menu: React.FC<MenuProps> = ({
         <Title>TASKS</Title>
         <MenuItem
           name="All tasks"
-          color="green"
+          color="white"
           selected={selectedMenuItem === "tAll"}
           onClick={() => handleMenuItemClick("tAll")}
         />
         <MenuItem
           name="To Do"
-          color="green"
-          selected={selectedMenuItem === "tToDo"}
-          onClick={() => handleMenuItemClick("tToDo")}
+          color="darkgray"
+          selected={selectedMenuItem === "tTo Do"}
+          onClick={() => handleMenuItemClick("tTo Do")}
         />
         <MenuItem
           name="Completed"

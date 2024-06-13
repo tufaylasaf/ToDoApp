@@ -1,30 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { IoIosArrowForward } from "react-icons/io";
+import { changeStatus } from "../todoService";
+
+interface ToDo {
+  id?: number | undefined;
+  title: string;
+  description: string;
+  priority: string;
+  dueDate?: string;
+  completed: boolean;
+}
 
 interface TaskProps {
-  title: string;
+  todo: ToDo;
   onClick: () => void;
 }
 
-const Task: React.FC<TaskProps> = ({ title, onClick }) => {
+const Task: React.FC<TaskProps> = ({ todo, onClick }) => {
+  const [isChecked, setIsChecked] = useState(todo.completed);
+
+  const handleCheckboxChange = async () => {
+    const updatedTodo = await changeStatus(todo);
+    setIsChecked(updatedTodo.completed);
+    console.log(updatedTodo);
+  };
+
   return (
     <Container onClick={onClick}>
-      <StyledCheckbox type="checkbox" id={title} />
-      <Title>{title}</Title>
+      <div>
+        <StyledCheckbox
+          type="checkbox"
+          id={todo.title}
+          checked={isChecked}
+          onChange={handleCheckboxChange}
+        />
+        <Title>{todo.title}</Title>
+      </div>
       <ArrowIcon />
     </Container>
   );
 };
 
 const Container = styled.div`
-  width: 100%;
+  width: 97%;
   border-top: 2px solid #f6f6f6;
   padding: 10px;
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
   cursor: pointer;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
 `;
 
 const StyledCheckbox = styled.input`
@@ -56,7 +88,7 @@ const StyledCheckbox = styled.input`
 `;
 
 const Title = styled.span`
-  margin-left: 8px;
+  /* margin-left: 8px; */
   font-size: 15px;
 `;
 

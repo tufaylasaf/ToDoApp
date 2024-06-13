@@ -5,6 +5,9 @@ interface ToDo {
   id?: number;
   title: string;
   description: string;
+  priority: string;
+  dueDate?: string;
+  completed: boolean;
 }
 
 interface TaskDetailedProps {
@@ -46,15 +49,26 @@ const TaskDetailed: React.FC<TaskDetailedProps> = ({
       />
       <Date>
         <Label htmlFor="date">Due date</Label>
-        <StyledDateInput type="date" id="date" />
+        <StyledDateInput
+          type="date"
+          id="date"
+          onChange={handleChange}
+          name="dueDate"
+          value={todo.dueDate}
+        />
       </Date>
       <Priority>
         <div>
           <Label htmlFor="dropdown">Priority</Label>
-          <StyledSelect id="dropdown">
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
+          <StyledSelect
+            id="dropdown"
+            name="priority"
+            onChange={handleChange}
+            value={todo.priority}
+          >
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
           </StyledSelect>
         </div>
         <div>

@@ -6,6 +6,9 @@ interface ToDo {
   id?: number;
   title: string;
   description: string;
+  priority: string;
+  dueDate?: string;
+  completed: boolean;
 }
 
 interface TaskViewProps {
@@ -25,13 +28,13 @@ const TaskView: React.FC<TaskViewProps> = ({
     <Container>
       <Heading>
         <h1>{heading}</h1>
-        <Counter>17</Counter>
+        <Counter>{todos.length}</Counter>
       </Heading>
       <Tasks>
         {todos.map((todo) => (
           <Task
             key={todo.id}
-            title={todo.title}
+            todo={todo}
             onClick={() => setSelectedTodo(todo)}
           />
         ))}

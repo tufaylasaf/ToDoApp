@@ -4,6 +4,9 @@ interface ToDo {
   id?: number;
   title: string;
   description: string;
+  priority: string;
+  dueDate?: string;
+  completed: boolean;
 }
 
 const API_BASE_URL = "http://localhost:5210/api/ToDo";
@@ -62,6 +65,20 @@ export const deleteToDo = async (todo: ToDo): Promise<ToDo[]> => {
   });
   if (!response.ok) {
     throw new Error("Failed to delete todo");
+  }
+  return response.json();
+};
+
+export const changeStatus = async (todo: ToDo): Promise<ToDo> => {
+  const response = await fetch(`${API_BASE_URL}/status/${todo.id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(todo),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to change status");
   }
   return response.json();
 };

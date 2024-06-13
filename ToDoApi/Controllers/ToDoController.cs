@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoApi.Data;
 using ToDoApi.Model;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ToDoApi.Controllers
 {
@@ -46,7 +49,7 @@ namespace ToDoApi.Controllers
                 return Ok(todo);
             }
 
-            return NotFound("ToDo does not exist");
+            return NotFound("Task does not exist");
         }
 
         //Update ToDo
@@ -56,11 +59,13 @@ namespace ToDoApi.Controllers
                 var todo = await toDoDbContext.Items.FirstOrDefaultAsync(e => e.ID == updatedToDo.ID);
                 todo!.Title = updatedToDo.Title;
                 todo.Description = updatedToDo.Description;
+                todo.DueDate = updatedToDo.DueDate;
+                todo.Priority = updatedToDo.Priority;
                 await toDoDbContext.SaveChangesAsync();
                 return Ok(todo);
             }
 
-            return BadRequest("User not found");
+            return BadRequest("Task not found");
         }
 
         //Delete
@@ -73,6 +78,18 @@ namespace ToDoApi.Controllers
                 return Ok(await toDoDbContext.Items.ToListAsync());
             }
 
+            return NotFound();
+        }
+
+        //Mark Todo as completed
+        [HttpPut("status/{id:int}")]
+        public async Task<ActionResult<ToDo>> changeStatus(int id){
+            var todo = await toDoDbContext.Items.FirstOrDefaultAsync(e => e.ID == id);
+            if(todo != null){
+                todo.Completed = !todo.Completed;
+                await toDoDbContext.SaveChangesAsync();
+                return Ok(todo);
+            }
             return NotFound();
         }
     }
