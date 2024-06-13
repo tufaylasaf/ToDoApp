@@ -5,22 +5,21 @@ import MenuItem from "./MenuItem";
 
 interface MenuProps {
   selectedMenuItem: string | null;
-  setSelectedMenuItem: (name: string) => void;
   addTask: () => void;
   handleMenuItemClick: (name: string) => void;
+  openMenu: boolean;
 }
 
 const Menu: React.FC<MenuProps> = ({
   selectedMenuItem,
-  setSelectedMenuItem,
   addTask,
   handleMenuItemClick,
+  openMenu,
 }) => {
   return (
-    <Container>
+    <Container open={openMenu}>
       <Heading>
         <h2>Menu</h2>
-        <BurgerIcon />
       </Heading>
       <Content>
         <Title>TASKS</Title>
@@ -89,7 +88,7 @@ const Menu: React.FC<MenuProps> = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ open: boolean }>`
   background-color: #f6f6f6;
   height: 100vh;
   padding: 0px 15px;
@@ -98,6 +97,15 @@ const Container = styled.div`
   border-radius: 12px;
   display: flex;
   flex-direction: column;
+  transition: all 0.35s ease-in-out;
+
+  @media (max-width: 500px) {
+    position: fixed;
+    left: ${({ open }) => (open ? "0" : "-90vw")};
+    width: 80vw;
+    z-index: 2;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
 `;
 
 const Heading = styled.div`

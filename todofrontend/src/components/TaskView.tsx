@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Task from "./Task";
+import { FaBars } from "react-icons/fa";
 
 interface ToDo {
   id?: number;
@@ -15,12 +16,16 @@ interface TaskViewProps {
   todos: ToDo[];
   selectedMenuItem: string;
   setSelectedTodo: React.Dispatch<React.SetStateAction<ToDo>>;
+  setOpenTaskView: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TaskView: React.FC<TaskViewProps> = ({
   todos,
   selectedMenuItem,
   setSelectedTodo,
+  setOpenTaskView,
+  setOpenMenu,
 }) => {
   const heading: string = selectedMenuItem.slice(1);
 
@@ -29,13 +34,17 @@ const TaskView: React.FC<TaskViewProps> = ({
       <Heading>
         <h1>{heading}</h1>
         <Counter>{todos.length}</Counter>
+        <BurgerIcon onClick={() => setOpenMenu(true)} />
       </Heading>
       <Tasks>
         {todos.map((todo) => (
           <Task
             key={todo.id}
             todo={todo}
-            onClick={() => setSelectedTodo(todo)}
+            onClick={() => {
+              setSelectedTodo(todo);
+              setOpenTaskView(true);
+            }}
           />
         ))}
       </Tasks>
@@ -48,11 +57,13 @@ const Container = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: start;
-  /* background-color: #bbb; */
-  /* padding-left: 16px; */
   margin: 0px 4vw;
+
+  @media (max-width: 500px) {
+    position: fixed;
+    width: 80vw;
+  }
 `;
 
 const Heading = styled.span`
@@ -76,6 +87,17 @@ const Counter = styled.span`
   padding: 5px;
   border-radius: 3px;
   margin-left: 24px;
+`;
+
+const BurgerIcon = styled(FaBars)`
+  font-size: 1.5em;
+  cursor: pointer;
+  position: fixed;
+  right: 10vw;
+
+  @media (min-width: 500px) {
+    display: none;
+  }
 `;
 
 const Tasks = styled.div`

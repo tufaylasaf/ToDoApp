@@ -34,6 +34,9 @@ const Home = () => {
   const [filteredTodos, setFilteredTodos] = useState<ToDo[]>([]);
   const [selectedTodo, setSelectedTodo] = useState<ToDo>(emptyToDo);
 
+  const [openMenu, setopenMenu] = useState<boolean>(false);
+  const [openTaskDetails, setopenTaskDetails] = useState<boolean>(false);
+
   useEffect(() => {
     async function fetchTodos() {
       const fetchedTodos = await getToDos();
@@ -50,6 +53,7 @@ const Home = () => {
       filteredTodos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t))
     );
     console.log("Save task", selectedTodo);
+    setopenTaskDetails(false);
   };
 
   const handleDelete = async () => {
@@ -59,13 +63,16 @@ const Home = () => {
     );
     setSelectedTodo(emptyToDo);
     setTodos(updatedTodos);
+    setopenTaskDetails(false);
   };
 
   const handleAddToDo = async () => {
+    setopenMenu(false);
     const newTodo = await addToDo(newToDo);
     setSelectedTodo(newTodo);
     setTodos((prevTodos) => [...prevTodos, newTodo]);
     setFilteredTodos((prevTodos) => [...prevTodos, newTodo]);
+    setopenTaskDetails(true);
   };
 
   const handleMenuItemClick = (name: string) => {
@@ -88,26 +95,31 @@ const Home = () => {
     }
 
     setFilteredTodos(result);
+    setopenMenu(false);
   };
 
   return (
     <Container>
       <Menu
         selectedMenuItem={selectedMenuItem}
-        setSelectedMenuItem={setSelectedMenuItem}
         addTask={handleAddToDo}
         handleMenuItemClick={handleMenuItemClick}
+        openMenu={openMenu}
       />
       <TaskView
         todos={filteredTodos}
         selectedMenuItem={selectedMenuItem}
         setSelectedTodo={setSelectedTodo}
+        setOpenTaskView={setopenTaskDetails}
+        setOpenMenu={setopenMenu}
       />
       <TaskDetailed
         todo={selectedTodo}
         setTodo={setSelectedTodo}
         onDelete={handleDelete}
         onSave={handleSave}
+        openView={openTaskDetails}
+        setOpenView={setopenTaskDetails}
       />
     </Container>
   );

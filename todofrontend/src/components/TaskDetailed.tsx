@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { CgCloseR } from "react-icons/cg";
 
 interface ToDo {
   id?: number;
@@ -15,6 +16,8 @@ interface TaskDetailedProps {
   setTodo: React.Dispatch<React.SetStateAction<ToDo>>;
   onDelete: () => void;
   onSave: () => void;
+  openView: boolean;
+  setOpenView: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TaskDetailed: React.FC<TaskDetailedProps> = ({
@@ -22,6 +25,8 @@ const TaskDetailed: React.FC<TaskDetailedProps> = ({
   setTodo,
   onDelete,
   onSave,
+  openView,
+  setOpenView,
 }) => {
   const handleChange = (
     e: React.ChangeEvent<
@@ -33,8 +38,9 @@ const TaskDetailed: React.FC<TaskDetailedProps> = ({
   };
 
   return (
-    <Container>
+    <Container open={openView}>
       <h2>Task:</h2>
+      <CloseButton onClick={() => setOpenView(false)} />
       <Title
         name="title"
         value={todo.title}
@@ -87,7 +93,7 @@ const TaskDetailed: React.FC<TaskDetailedProps> = ({
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ open: boolean }>`
   width: 25vw;
   height: 100vh;
   display: flex;
@@ -98,12 +104,33 @@ const Container = styled.div`
   padding: 0px 15px;
   flex-direction: column;
   gap: 10px;
+  transition: all 0.35s ease-in-out;
 
   h2 {
     /* margin: 0; */
     font-family: "SF-Bold";
     font-weight: normal;
     color: #535353;
+  }
+
+  @media (max-width: 500px) {
+    position: fixed;
+    width: 80vw;
+    z-index: 2;
+    right: ${({ open }) => (open ? "0" : "-90vw")};
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+`;
+
+const CloseButton = styled(CgCloseR)`
+  position: absolute;
+  font-size: 24px;
+  right: 5vw;
+  top: 3vh;
+  color: #535353;
+
+  @media (min-width: 500px) {
+    display: none;
   }
 `;
 
