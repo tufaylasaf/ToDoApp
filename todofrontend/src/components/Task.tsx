@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { IoIosArrowForward } from "react-icons/io";
+import { FaRegCalendarAlt } from "react-icons/fa";
 import { changeStatus } from "../todoService";
 
 interface ToDo {
@@ -22,22 +23,33 @@ const Task: React.FC<TaskProps> = ({ todo, onClick }) => {
 
   const handleCheckboxChange = async () => {
     const updatedTodo = await changeStatus(todo);
+    todo.completed = !todo.completed;
     setIsChecked(updatedTodo.completed);
     console.log(updatedTodo);
   };
 
   return (
     <Container onClick={onClick}>
-      <div>
-        <StyledCheckbox
-          type="checkbox"
-          id={todo.title}
-          checked={isChecked}
-          onChange={handleCheckboxChange}
-        />
-        <Title>{todo.title}</Title>
-      </div>
-      <ArrowIcon />
+      <Main>
+        <div>
+          <StyledCheckbox
+            type="checkbox"
+            id={todo.title}
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+          />
+          <Title completed={todo.completed}>{todo.title}</Title>
+        </div>
+        <ArrowIcon />
+      </Main>
+      <Extra>
+        {todo.dueDate !== "" && (
+          <Date>
+            <FaRegCalendarAlt />
+            {todo.dueDate}
+          </Date>
+        )}
+      </Extra>
     </Container>
   );
 };
@@ -47,9 +59,17 @@ const Container = styled.div`
   border-top: 2px solid #f6f6f6;
   padding: 10px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  cursor: pointer;
+`;
+
+const Main = styled.div`
+  width: 100%;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
 
   div {
     display: flex;
@@ -57,6 +77,23 @@ const Container = styled.div`
     align-items: center;
     gap: 8px;
   }
+`;
+
+const Extra = styled.div`
+  margin: 3px 0px 0px 0px;
+`;
+
+const Date = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+  margin-left: 32px;
+  gap: 4px;
+  transition: all 0.25s ease-in-out;
+  background-color: #f6f6f6;
+  padding: 3px 6px;
+  border-radius: 5px;
 `;
 
 const StyledCheckbox = styled.input`
@@ -87,9 +124,10 @@ const StyledCheckbox = styled.input`
   }
 `;
 
-const Title = styled.span`
+const Title = styled.span<{ completed: boolean }>`
   /* margin-left: 8px; */
   font-size: 15px;
+  text-decoration: ${({ completed }) => (completed ? "line-through" : "none")};
 `;
 
 const ArrowIcon = styled(IoIosArrowForward)``;

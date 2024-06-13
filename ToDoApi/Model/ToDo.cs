@@ -10,7 +10,7 @@
 
         public string Priority { get; set; } = "Low";
 
-        public string DueDate { get; set; } = "2024-06-09";
+        public string DueDate { get; set; } = "";
 
         public bool Completed { get; set; }
     }

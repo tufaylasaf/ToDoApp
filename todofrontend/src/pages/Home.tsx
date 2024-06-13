@@ -32,7 +32,7 @@ const Home = () => {
   const [selectedMenuItem, setSelectedMenuItem] = useState<string>("tAll");
   const [todos, setTodos] = useState<ToDo[]>([]);
   const [filteredTodos, setFilteredTodos] = useState<ToDo[]>([]);
-  const [selectedTodo, setSelectedTodo] = useState<ToDo>(newToDo);
+  const [selectedTodo, setSelectedTodo] = useState<ToDo>(emptyToDo);
 
   useEffect(() => {
     async function fetchTodos() {
@@ -46,14 +46,17 @@ const Home = () => {
   const handleSave = async () => {
     const updatedTodo = await updateToDo(selectedTodo);
     setTodos(todos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t)));
+    setFilteredTodos(
+      filteredTodos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t))
+    );
     console.log("Save task", selectedTodo);
   };
 
   const handleDelete = async () => {
+    const updatedTodos = await deleteToDo(selectedTodo);
     setFilteredTodos(
       filteredTodos.filter((todo) => todo.id !== selectedTodo.id)
     );
-    const updatedTodos = await deleteToDo(selectedTodo);
     setSelectedTodo(emptyToDo);
     setTodos(updatedTodos);
   };
@@ -72,10 +75,10 @@ const Home = () => {
 
     if (name.startsWith("t")) {
       const filter = name.substring(1);
-      if (filter == "All") result = todos;
+      if (filter === "All") result = todos;
       else {
         const completed = filter === "To Do";
-        result = todos.filter((todo) => todo.completed != completed);
+        result = todos.filter((todo) => todo.completed !== completed);
       }
     } else if (name.startsWith("p")) {
       const priority = name.substring(1);

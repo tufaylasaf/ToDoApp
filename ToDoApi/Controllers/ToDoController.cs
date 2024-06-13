@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoApi.Data;
 using ToDoApi.Model;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ToDoApi.Controllers
 {
