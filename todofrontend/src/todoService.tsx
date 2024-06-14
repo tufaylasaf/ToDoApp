@@ -9,7 +9,7 @@ interface ToDo {
   completed: boolean;
 }
 
-const API_BASE_URL = "http://localhost:5210/api/ToDo";
+const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net/ToDo";
 
 export const getToDos = async (): Promise<ToDo[]> => {
   const response = await fetch(API_BASE_URL);
