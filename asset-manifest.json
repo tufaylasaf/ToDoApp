@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/ToDoApp/static/css/main.6754946b.css",
+    "main.js": "/ToDoApp/static/js/main.210be99e.js",
+    "static/js/453.028c2f23.chunk.js": "/ToDoApp/static/js/453.028c2f23.chunk.js",
+    "static/media/SF-Pro-Display-Medium.otf": "/ToDoApp/static/media/SF-Pro-Display-Medium.e1d844da0ee028d4e288.otf",
+    "static/media/SF-Pro-Display-Heavy.otf": "/ToDoApp/static/media/SF-Pro-Display-Heavy.a48bcc073f92987abb91.otf",
+    "static/media/SF-Pro-Display-Bold.otf": "/ToDoApp/static/media/SF-Pro-Display-Bold.170e68ac3f4c79ef407d.otf",
+    "static/media/SF-Pro-Display-Light.otf": "/ToDoApp/static/media/SF-Pro-Display-Light.916b3ad9eb7cec3e03e2.otf",
+    "static/media/SF-Pro-Display-Regular.otf": "/ToDoApp/static/media/SF-Pro-Display-Regular.d95919824936a9bf4051.otf",
+    "static/media/SF-Pro-Display-Black.otf": "/ToDoApp/static/media/SF-Pro-Display-Black.760828725e5b5c720f8c.otf",
+    "index.html": "/ToDoApp/index.html",
+    "main.6754946b.css.map": "/ToDoApp/static/css/main.6754946b.css.map",
+    "main.210be99e.js.map": "/ToDoApp/static/js/main.210be99e.js.map",
+    "453.028c2f23.chunk.js.map": "/ToDoApp/static/js/453.028c2f23.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6754946b.css",
+    "static/js/main.210be99e.js"
+  ]
+}
