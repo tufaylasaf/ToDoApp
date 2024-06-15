@@ -5,4 +5,5 @@ export interface ToDo {
   priority: string;
   dueDate?: string;
   completed: boolean;
+  userName: string | undefined;
 }

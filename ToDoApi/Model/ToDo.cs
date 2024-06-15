@@ -13,5 +13,7 @@
         public string DueDate { get; set; } = "";
 
         public bool Completed { get; set; }
+
+        public string UserName{ get; set; } = "";
     }
 }

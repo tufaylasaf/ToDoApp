@@ -57,7 +57,7 @@ const Box = styled.div<{ color: string }>`
   width: 15px;
   height: 15px;
   margin-right: 8px;
-  border-radius: 3px;
+  border-radius: 50%;
   background-color: ${({ color }) => color};
 `;
 

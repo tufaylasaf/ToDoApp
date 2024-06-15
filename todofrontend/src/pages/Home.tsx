@@ -12,12 +12,15 @@ import {
 } from "../todoService";
 import { ToDo } from "../models/ToDo";
 import { User } from "../models/User";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const newToDo: ToDo = {
   title: "Edit Title",
   description: "Edit Description",
   completed: false,
   priority: "Low",
+  userName: "",
 };
 
 const emptyToDo: ToDo = {
@@ -25,6 +28,7 @@ const emptyToDo: ToDo = {
   description: "",
   completed: false,
   priority: "Low",
+  userName: "",
 };
 
 const Home = () => {
@@ -39,6 +43,8 @@ const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loggedInUser, setLoggedInUser] = useState<User | null>();
 
+  const navigate = useNavigate();
+
   const handleSave = async () => {
     const updatedTodo = await updateToDo(selectedTodo);
     setTodos(todos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t)));
@@ -46,6 +52,7 @@ const Home = () => {
       filteredTodos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t))
     );
     console.log("Save task", selectedTodo);
+    toast.success("Changes Saved!");
     setopenTaskDetails(false);
   };
 
@@ -56,11 +63,13 @@ const Home = () => {
     );
     setSelectedTodo(emptyToDo);
     setTodos(updatedTodos);
+    toast.success("Task Deleted!");
     setopenTaskDetails(false);
   };
 
   const handleAddToDo = async () => {
     setopenMenu(false);
+    newToDo.userName = loggedInUser?.userName;
     const newTodo = await addToDo(newToDo);
     setSelectedTodo(newTodo);
     setTodos((prevTodos) => [...prevTodos, newTodo]);
@@ -92,8 +101,8 @@ const Home = () => {
   };
 
   useEffect(() => {
-    async function fetchTodos() {
-      const fetchedTodos = await getToDos();
+    async function fetchTodos(userName: string | undefined) {
+      const fetchedTodos = await getToDos(userName);
       setTodos(fetchedTodos);
       setFilteredTodos(fetchedTodos);
     }
@@ -101,14 +110,18 @@ const Home = () => {
     async function validateUser(token: string) {
       const user = await getUser(token);
       setLoggedInUser(user);
+      newToDo.userName = user?.userName;
+      emptyToDo.userName = user?.userName;
     }
-
-    fetchTodos();
 
     const token = localStorage.getItem("authToken");
     if (token != null) {
       setIsAuthenticated(true);
       validateUser(token);
+      fetchTodos(token);
+    } else {
+      toast.error("You need to Sign In!");
+      navigate("/");
     }
   }, []);
 

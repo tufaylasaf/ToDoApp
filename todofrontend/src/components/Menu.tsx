@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaBars, FaPlus } from "react-icons/fa";
+import { IoSettingsOutline } from "react-icons/io5";
+import { PiSignOut } from "react-icons/pi";
 import MenuItem from "./MenuItem";
+import { useNavigate } from "react-router-dom";
 
 interface MenuProps {
   selectedMenuItem: string | null;
@@ -16,6 +19,13 @@ const Menu: React.FC<MenuProps> = ({
   handleMenuItemClick,
   openMenu,
 }) => {
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    localStorage.removeItem("authToken");
+    navigate("/");
+  };
+
   return (
     <Container open={openMenu}>
       <Heading>
@@ -25,19 +35,19 @@ const Menu: React.FC<MenuProps> = ({
         <Title>TASKS</Title>
         <MenuItem
           name="All tasks"
-          color="white"
+          color="black"
           selected={selectedMenuItem === "tAll"}
           onClick={() => handleMenuItemClick("tAll")}
         />
         <MenuItem
           name="To Do"
-          color="darkgray"
+          color="lightgray"
           selected={selectedMenuItem === "tTo Do"}
           onClick={() => handleMenuItemClick("tTo Do")}
         />
         <MenuItem
           name="Completed"
-          color="green"
+          color="darkgray"
           selected={selectedMenuItem === "tCompleted"}
           onClick={() => handleMenuItemClick("tCompleted")}
         />
@@ -84,13 +94,23 @@ const Menu: React.FC<MenuProps> = ({
           <span>Add New List</span>
         </MenuButton>
       </Content>
+      <Footer>
+        <MenuButton>
+          <SettingsIcon />
+          <span>Settings</span>
+        </MenuButton>
+        <MenuButton onClick={handleSignOut}>
+          <SignOutIcon />
+          <span>Sign Out</span>
+        </MenuButton>
+      </Footer>
     </Container>
   );
 };
 
 const Container = styled.div<{ open: boolean }>`
   background-color: #f6f6f6;
-  height: 100vh;
+  height: 95vh;
   padding: 0px 15px;
   margin: 0;
   width: 20vw;
@@ -114,7 +134,7 @@ const Heading = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: fit-content;
+  height: 20%;
   /* background-color: aqua; */
 
   h2 {
@@ -124,12 +144,28 @@ const Heading = styled.div`
   }
 `;
 
-const BurgerIcon = styled(FaBars)`
-  font-size: 1.5em;
-  cursor: pointer;
+const Footer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  height: 50%;
 `;
 
 const PlusIcon = styled(FaPlus)`
+  font-size: 1.2em;
+  cursor: pointer;
+  color: #444;
+  margin-right: 8px;
+`;
+
+const SettingsIcon = styled(IoSettingsOutline)`
+  font-size: 1.2em;
+  cursor: pointer;
+  color: #444;
+  margin-right: 8px;
+`;
+
+const SignOutIcon = styled(PiSignOut)`
   font-size: 1.2em;
   cursor: pointer;
   color: #444;
@@ -140,6 +176,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
+  height: 100%;
 `;
 
 const Title = styled.span`

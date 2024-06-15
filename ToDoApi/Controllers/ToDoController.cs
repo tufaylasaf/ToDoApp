@@ -38,6 +38,14 @@ namespace ToDoApi.Controllers
             return Ok(todos);
         }
 
+
+        [HttpGet("user")]
+        public async Task<ActionResult<List<ToDo>>> GetToDosUser(string username)
+        {
+            var todos = await toDoDbContext.Items.Where(todo => todo.UserName == username).ToListAsync();
+            return Ok(todos);
+        }
+
         //Get Specific Item
         [HttpGet("{id:int}")]
         public async Task<ActionResult<ToDo>> GetToDo(int id){

@@ -2,11 +2,15 @@ import toast from "react-hot-toast";
 import { ToDo } from "./models/ToDo";
 import { User } from "./models/User";
 
-// const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net";
-const API_BASE_URL = "http://localhost:5210";
+const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net";
+// const API_BASE_URL = "http://localhost:5210";
 
-export const getToDos = async (): Promise<ToDo[]> => {
-  const response = await fetch(`${API_BASE_URL}/ToDo`);
+export const getToDos = async (
+  userName: string | undefined
+): Promise<ToDo[]> => {
+  const response = await fetch(
+    `${API_BASE_URL}/ToDo/user?username=${userName}`
+  );
   if (!response.ok) {
     throw new Error("Failed to fetch todos");
   }
