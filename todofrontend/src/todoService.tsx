@@ -1,18 +1,12 @@
-// src/todoService.ts
+import toast from "react-hot-toast";
+import { ToDo } from "./models/ToDo";
+import { User } from "./models/User";
 
-interface ToDo {
-  id?: number;
-  title: string;
-  description: string;
-  priority: string;
-  dueDate?: string;
-  completed: boolean;
-}
-
-const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net/ToDo";
+// const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net";
+const API_BASE_URL = "http://localhost:5210";
 
 export const getToDos = async (): Promise<ToDo[]> => {
-  const response = await fetch(API_BASE_URL);
+  const response = await fetch(`${API_BASE_URL}/ToDo`);
   if (!response.ok) {
     throw new Error("Failed to fetch todos");
   }
@@ -20,7 +14,7 @@ export const getToDos = async (): Promise<ToDo[]> => {
 };
 
 export const getToDo = async (id: number): Promise<ToDo> => {
-  const response = await fetch(`${API_BASE_URL}/${id}`);
+  const response = await fetch(`${API_BASE_URL}/ToDo/${id}`);
   if (!response.ok) {
     throw new Error("Failed to fetch todo");
   }
@@ -28,7 +22,7 @@ export const getToDo = async (id: number): Promise<ToDo> => {
 };
 
 export const addToDo = async (todo: ToDo): Promise<ToDo> => {
-  const response = await fetch(API_BASE_URL, {
+  const response = await fetch(`${API_BASE_URL}/ToDo`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -42,7 +36,7 @@ export const addToDo = async (todo: ToDo): Promise<ToDo> => {
 };
 
 export const updateToDo = async (todo: ToDo): Promise<ToDo> => {
-  const response = await fetch(API_BASE_URL, {
+  const response = await fetch(`${API_BASE_URL}/ToDo`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -56,7 +50,7 @@ export const updateToDo = async (todo: ToDo): Promise<ToDo> => {
 };
 
 export const deleteToDo = async (todo: ToDo): Promise<ToDo[]> => {
-  const response = await fetch(`${API_BASE_URL}/${todo.id}`, {
+  const response = await fetch(`${API_BASE_URL}/ToDo/${todo.id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -70,7 +64,7 @@ export const deleteToDo = async (todo: ToDo): Promise<ToDo[]> => {
 };
 
 export const changeStatus = async (todo: ToDo): Promise<ToDo> => {
-  const response = await fetch(`${API_BASE_URL}/status/${todo.id}`, {
+  const response = await fetch(`${API_BASE_URL}/ToDo/status/${todo.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -81,4 +75,66 @@ export const changeStatus = async (todo: ToDo): Promise<ToDo> => {
     throw new Error("Failed to change status");
   }
   return response.json();
+};
+
+export const registerUser = async (user: User): Promise<User | null> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/User`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      toast.error(await response.text());
+      return null;
+    }
+
+    toast.success("Registered Successfully, Welcome!");
+    return response.json();
+  } catch (error) {
+    console.error("Error occurred while adding User:", error);
+    return null;
+  }
+};
+
+export const loginUser = async (user: User): Promise<User | null> => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/User/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      toast.error(await response.text());
+      return null;
+    }
+
+    toast.success("Login successfull");
+
+    const data = await response.json();
+    localStorage.setItem("authToken", data.userName);
+
+    return data;
+  } catch (error) {
+    console.error("Error occurred while logging in:", error);
+    return null;
+  }
+};
+
+export const getUser = async (userName: string): Promise<User | null> => {
+  const response = await fetch(`${API_BASE_URL}/User/${userName}`);
+
+  if (!response.ok) {
+    console.log(await response.text());
+    return null;
+  }
+
+  const data = await response.json();
+  return data;
 };

@@ -8,5 +8,6 @@ namespace ToDoApi.Data
         public ToDoDbContext(DbContextOptions<ToDoDbContext> options):base(options) { }
 
         public DbSet<ToDo> Items { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

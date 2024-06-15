@@ -2,15 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Task from "./Task";
 import { FaBars } from "react-icons/fa";
-
-interface ToDo {
-  id?: number;
-  title: string;
-  description: string;
-  priority: string;
-  dueDate?: string;
-  completed: boolean;
-}
+import { ToDo } from "../models/ToDo";
 
 interface TaskViewProps {
   todos: ToDo[];

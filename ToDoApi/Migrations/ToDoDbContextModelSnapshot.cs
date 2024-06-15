@@ -45,6 +45,29 @@ namespace ToDoApi.Migrations
 
                     b.ToTable("Items");
                 });
+
+            modelBuilder.Entity("ToDoApi.Model.User", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Users");
+                });
 #pragma warning restore 612, 618
         }
     }

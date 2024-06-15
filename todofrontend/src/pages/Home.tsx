@@ -3,16 +3,15 @@ import styled from "styled-components";
 import Menu from "../components/Menu";
 import TaskView from "../components/TaskView";
 import TaskDetailed from "../components/TaskDetailed";
-import { getToDos, addToDo, updateToDo, deleteToDo } from "../todoService";
-
-interface ToDo {
-  id?: number | undefined;
-  title: string;
-  description: string;
-  priority: string;
-  dueDate?: string;
-  completed: boolean;
-}
+import {
+  getToDos,
+  addToDo,
+  updateToDo,
+  deleteToDo,
+  getUser,
+} from "../todoService";
+import { ToDo } from "../models/ToDo";
+import { User } from "../models/User";
 
 const newToDo: ToDo = {
   title: "Edit Title",
@@ -37,14 +36,8 @@ const Home = () => {
   const [openMenu, setopenMenu] = useState<boolean>(false);
   const [openTaskDetails, setopenTaskDetails] = useState<boolean>(false);
 
-  useEffect(() => {
-    async function fetchTodos() {
-      const fetchedTodos = await getToDos();
-      setTodos(fetchedTodos);
-      setFilteredTodos(fetchedTodos);
-    }
-    fetchTodos();
-  }, []);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [loggedInUser, setLoggedInUser] = useState<User | null>();
 
   const handleSave = async () => {
     const updatedTodo = await updateToDo(selectedTodo);
@@ -97,6 +90,31 @@ const Home = () => {
     setFilteredTodos(result);
     setopenMenu(false);
   };
+
+  useEffect(() => {
+    async function fetchTodos() {
+      const fetchedTodos = await getToDos();
+      setTodos(fetchedTodos);
+      setFilteredTodos(fetchedTodos);
+    }
+
+    async function validateUser(token: string) {
+      const user = await getUser(token);
+      setLoggedInUser(user);
+    }
+
+    fetchTodos();
+
+    const token = localStorage.getItem("authToken");
+    if (token != null) {
+      setIsAuthenticated(true);
+      validateUser(token);
+    }
+  }, []);
+
+  if (!isAuthenticated) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container>

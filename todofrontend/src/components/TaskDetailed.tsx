@@ -1,15 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { CgCloseR } from "react-icons/cg";
-
-interface ToDo {
-  id?: number;
-  title: string;
-  description: string;
-  priority: string;
-  dueDate?: string;
-  completed: boolean;
-}
+import { ToDo } from "../models/ToDo";
 
 interface TaskDetailedProps {
   todo: ToDo;

@@ -6,8 +6,8 @@ using ToDoApi.Model;
 
 namespace ToDoApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class ToDoController : ControllerBase
     {
         private readonly ToDoDbContext toDoDbContext;

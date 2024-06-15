@@ -1,15 +1,31 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { registerUser } from "../todoService";
+import { User } from "../models/User";
+import { useNavigate } from "react-router-dom";
+
+const emptyUser: User = {
+  userName: "",
+  email: "",
+  password: "",
+};
 
 const SignUp: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user, setUser] = useState<User>(emptyUser);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle the registration logic here
-    console.log("Registering user:", { username, email, password });
+
+    const response = await registerUser(user);
+    console.log(response);
+    if (response != null) navigate("/");
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
 
   return (
@@ -18,12 +34,13 @@ const SignUp: React.FC = () => {
         <h1>SIGN UP</h1>
         <Form onSubmit={handleRegister}>
           <InputContainer>
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="userName">Username</Label>
             <Input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="userName"
+              name="userName"
+              value={user.userName}
+              onChange={handleChange}
               placeholder="Enter your username"
               required
             />
@@ -33,8 +50,9 @@ const SignUp: React.FC = () => {
             <Input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={user.email}
+              onChange={handleChange}
               placeholder="Enter your email"
               required
             />
@@ -44,8 +62,9 @@ const SignUp: React.FC = () => {
             <Input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={user.password}
+              onChange={handleChange}
               placeholder="Enter your password"
               required
             />
@@ -94,6 +113,9 @@ const Form = styled.form`
 const InputContainer = styled.div`
   width: 100%;
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 `;
 
 const Label = styled.label`

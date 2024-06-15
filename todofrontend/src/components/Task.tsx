@@ -3,15 +3,7 @@ import styled from "styled-components";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { changeStatus } from "../todoService";
-
-interface ToDo {
-  id?: number | undefined;
-  title: string;
-  description: string;
-  priority: string;
-  dueDate?: string;
-  completed: boolean;
-}
+import { ToDo } from "../models/ToDo";
 
 interface TaskProps {
   todo: ToDo;
