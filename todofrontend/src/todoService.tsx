@@ -3,8 +3,8 @@ import { ToDo } from "./models/ToDo";
 import { User } from "./models/User";
 import { error } from "console";
 
-// const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net";
-const API_BASE_URL = "http://localhost:5210";
+const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net";
+// const API_BASE_URL = "http://localhost:5210";
 
 export const getToDos = async (
   userName: string | undefined
