@@ -48,17 +48,25 @@ By default, the frontend will call the APIs from the deployed backend at the lin
 
 ### Backend
 
-1. **Navigate to the backend directory**:
+1. **Ensure you have .NET 8.0 or above installed**:
+    - **Check your .NET version**:
+        ```sh
+        dotnet --version
+        ```
+    - **Install .NET 8.0 or above**:
+        - Download and install the latest version of .NET SDK from the official [.NET download page](https://dotnet.microsoft.com/download).
+
+2. **Navigate to the backend directory**:
     ```sh
     cd ToDoApi
     ```
 
-2. **Start the backend server**:
+3. **Start the backend server**:
     ```sh
     dotnet watch
     ```
-
-3. **Connect the frontend to the local backend**:
+       
+4. **Connect the frontend to the local backend**:
     - Comment the 6th line in the file `todofrontend/src/todoService.tsx`.
     - Uncomment the 7th line in the file `todofrontend/src/todoService.tsx` to connect to the local backend.
 
