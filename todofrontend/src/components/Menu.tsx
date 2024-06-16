@@ -76,7 +76,7 @@ const Menu: React.FC<MenuProps> = ({
           color="#42ff42"
           selected={selectedMenuItem === "pLow"}
           onClick={() => handleMenuItemClick("pLow")}
-          total={counts[1]}
+          total={counts[2]}
         />
         <MenuButton onClick={addTask}>
           <PlusIcon />

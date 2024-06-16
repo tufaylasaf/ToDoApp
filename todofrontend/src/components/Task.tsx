@@ -15,11 +15,13 @@ interface TaskProps {
 const Task: React.FC<TaskProps> = ({ todo, onClick, setCounts, userName }) => {
   const [isChecked, setIsChecked] = useState(todo.completed);
 
+  //Fetches the counts of various ToDo categories.
   async function fetchCounts(userName: string | undefined) {
     const response = await getCounts(userName);
     setCounts(response);
   }
 
+  //Change the status of a Task, by marking it complete or incomplete
   const handleCheckboxChange = async () => {
     const updatedTodo = await changeStatus(todo);
     todo.completed = !todo.completed;

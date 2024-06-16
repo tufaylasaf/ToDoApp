@@ -6,6 +6,7 @@ import { error } from "console";
 const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net";
 // const API_BASE_URL = "http://localhost:5210";
 
+// Fetches the list of ToDo items for a specific user.
 export const getToDos = async (
   userName: string | undefined
 ): Promise<ToDo[]> => {
@@ -18,6 +19,7 @@ export const getToDos = async (
   return response.json();
 };
 
+// Fetches a specific ToDo item by its ID.
 export const getToDo = async (id: number): Promise<ToDo> => {
   const response = await fetch(`${API_BASE_URL}/ToDo/${id}`);
   if (!response.ok) {
@@ -26,6 +28,7 @@ export const getToDo = async (id: number): Promise<ToDo> => {
   return response.json();
 };
 
+// Adds a new ToDo item.
 export const addToDo = async (todo: ToDo): Promise<ToDo> => {
   const response = await fetch(`${API_BASE_URL}/ToDo`, {
     method: "POST",
@@ -40,6 +43,7 @@ export const addToDo = async (todo: ToDo): Promise<ToDo> => {
   return response.json();
 };
 
+// Updates an existing ToDo item.
 export const updateToDo = async (todo: ToDo): Promise<ToDo> => {
   const response = await fetch(`${API_BASE_URL}/ToDo`, {
     method: "PUT",
@@ -54,6 +58,7 @@ export const updateToDo = async (todo: ToDo): Promise<ToDo> => {
   return response.json();
 };
 
+// Deletes a specific ToDo item.
 export const deleteToDo = async (todo: ToDo): Promise<ToDo[]> => {
   const response = await fetch(`${API_BASE_URL}/ToDo/${todo.id}`, {
     method: "DELETE",
@@ -68,6 +73,7 @@ export const deleteToDo = async (todo: ToDo): Promise<ToDo[]> => {
   return response.json();
 };
 
+// Changes the status of a specific ToDo item.
 export const changeStatus = async (todo: ToDo): Promise<ToDo> => {
   const response = await fetch(`${API_BASE_URL}/ToDo/status/${todo.id}`, {
     method: "PUT",
@@ -82,6 +88,7 @@ export const changeStatus = async (todo: ToDo): Promise<ToDo> => {
   return response.json();
 };
 
+// Registers a new user.
 export const registerUser = async (user: User): Promise<User | null> => {
   try {
     const response = await fetch(`${API_BASE_URL}/User`, {
@@ -105,6 +112,7 @@ export const registerUser = async (user: User): Promise<User | null> => {
   }
 };
 
+// Logs in an existing user.
 export const loginUser = async (user: User): Promise<User | null> => {
   try {
     const response = await fetch(`${API_BASE_URL}/User/login`, {
@@ -132,6 +140,7 @@ export const loginUser = async (user: User): Promise<User | null> => {
   }
 };
 
+// Fetches a user by username.
 export const getUser = async (userName: string): Promise<User | null> => {
   const response = await fetch(`${API_BASE_URL}/User/${userName}`);
 
@@ -144,6 +153,7 @@ export const getUser = async (userName: string): Promise<User | null> => {
   return data;
 };
 
+// Fetches the counts of completed, incomplete, and priority tasks for a specific user.
 export const getCounts = async (
   userName: string | undefined
 ): Promise<number[]> => {

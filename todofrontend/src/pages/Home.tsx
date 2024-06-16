@@ -33,21 +33,37 @@ const emptyToDo: ToDo = {
 };
 
 const Home = () => {
+  // State to manage the selected menu item.
   const [selectedMenuItem, setSelectedMenuItem] = useState<string>("tAll");
+
+  // State to store all the ToDo items.
   const [todos, setTodos] = useState<ToDo[]>([]);
+
+  // State to store filtered ToDo items based on selected menu item.
   const [filteredTodos, setFilteredTodos] = useState<ToDo[]>([]);
+
+  // State to store the currently selected ToDo item.
   const [selectedTodo, setSelectedTodo] = useState<ToDo>(emptyToDo);
 
+  // State to manage the visibility of the menu.
   const [openMenu, setopenMenu] = useState<boolean>(false);
+
+  // State to manage the visibility of the task details modal.
   const [openTaskDetails, setopenTaskDetails] = useState<boolean>(false);
 
+  // State to manage the authentication status.
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+
+  // State to store the logged in user's information.
   const [loggedInUser, setLoggedInUser] = useState<User | null>();
 
+  // State to store the counts of various ToDo categories.
   const [counts, setCounts] = useState<number[]>([]);
 
+  // Hook to navigate
   const navigate = useNavigate();
 
+  // Handles saving changes to a ToDo item.
   const handleSave = async () => {
     const updatedTodo = await updateToDo(selectedTodo);
     setTodos(todos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t)));
@@ -60,6 +76,7 @@ const Home = () => {
     setopenTaskDetails(false);
   };
 
+  // Handles deleting a ToDo item.
   const handleDelete = async () => {
     const updatedTodos = await deleteToDo(selectedTodo);
     setFilteredTodos(
@@ -72,6 +89,7 @@ const Home = () => {
     setopenTaskDetails(false);
   };
 
+  // Handles adding a new ToDo item.
   const handleAddToDo = async () => {
     setopenMenu(false);
     newToDo.userName = loggedInUser?.userName;
@@ -83,6 +101,7 @@ const Home = () => {
     fetchCounts(loggedInUser?.userName);
   };
 
+  // Handles menu item clicks to filter ToDo items.
   const handleMenuItemClick = (name: string) => {
     setSelectedMenuItem(name);
 
@@ -106,11 +125,13 @@ const Home = () => {
     setopenMenu(false);
   };
 
+  // Fetches the counts of various ToDo categories.
   async function fetchCounts(userName: string | undefined) {
     const response = await getCounts(userName);
     setCounts(response);
   }
 
+  // useEffect hook to fetch data and validate user on component mount.
   useEffect(() => {
     async function fetchTodos(userName: string | undefined) {
       const fetchedTodos = await getToDos(userName);

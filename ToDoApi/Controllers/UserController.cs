@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ToDoApi.Data;
@@ -18,7 +17,11 @@ namespace ToDoApi.Controllers
             this.toDoDbContext = toDoDbContext;
         }
 
-        //Create
+        /// <summary>
+        /// Creates a new user.
+        /// </summary>
+        /// <param name="user">The user object containing user details.</param>
+        /// <returns>The created user object.</returns>
         [HttpPost]
         public async Task<ActionResult<User>> AddUser(User user)
         {
@@ -48,8 +51,11 @@ namespace ToDoApi.Controllers
 
             return Ok(user);
         }
-   
- 
+
+        /// <summary>
+        /// Retrieves all users.
+        /// </summary>
+        /// <returns>A list of all users.</returns>
         [HttpGet]
         public async Task<ActionResult<List<User>>> GetUsers()
         {
@@ -57,6 +63,11 @@ namespace ToDoApi.Controllers
             return Ok(users);
         }
 
+        /// <summary>
+        /// Retrieves a user by username.
+        /// </summary>
+        /// <param name="username">The username of the user to retrieve.</param>
+        /// <returns>The user object if found, otherwise a 404 error.</returns>
         [HttpGet("{username}")]
         public async Task<ActionResult<User>> GetUserByUsername(string username)
         {
@@ -70,6 +81,11 @@ namespace ToDoApi.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Authenticates a user.
+        /// </summary>
+        /// <param name="user">The user object containing the username and password.</param>
+        /// <returns>The authenticated user object if login is successful, otherwise an error message.</returns>
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(User user)
         {
@@ -89,5 +105,4 @@ namespace ToDoApi.Controllers
             return Ok(_user);
         }
     }
-
 }
