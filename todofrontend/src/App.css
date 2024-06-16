@@ -27,6 +27,13 @@
 }
 
 @font-face {
+  font-family: "SF-Medium-Italic";
+  src: url("./assets/fonts/SF-Pro-Display-MediumItalic.otf") format("opentype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
   font-family: "SF-Bold";
   src: url("./assets/fonts/SF-Pro-Display-Bold.otf") format("opentype");
   font-weight: normal;
@@ -42,6 +49,10 @@
 
 * {
   overflow: hidden;
+}
+
+body {
+  margin: 0;
 }
 
 .App {

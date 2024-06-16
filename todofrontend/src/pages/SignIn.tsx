@@ -28,7 +28,10 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Wrapper>
-        <h1>SIGN IN</h1>
+        <h1>Log in to your Account</h1>
+        <h2>To view your Tasks</h2>
+      </Wrapper>
+      <Wrapper>
         <Form onSubmit={handleSignIn}>
           <InputContainer>
             <Label htmlFor="username">Username</Label>
@@ -56,6 +59,11 @@ const SignIn: React.FC = () => {
             />
           </InputContainer>
           <RegisterButton type="submit">Log In</RegisterButton>
+          <span>
+            Don't have an account?
+            <br />
+            <a href="/register">Register Now</a>
+          </span>
         </Form>
       </Wrapper>
     </Container>
@@ -67,19 +75,23 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 75vh;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+  }
 `;
 
 const Wrapper = styled.div`
   background-color: #f6f6f6;
-  width: 45vw;
-  height: fit-content;
-  border-radius: 8px;
+  width: 22.5vw;
+  height: 35vh;
+  /* border-radius: 8px; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   padding: 24px;
   h1 {
     font-family: "SF-Heavy";
@@ -87,13 +99,20 @@ const Wrapper = styled.div`
     font-size: 42px;
     margin-bottom: 24px;
   }
+
+  @media (max-width: 500px) {
+    width: 75vw;
+    height: 40vh;
+  }
 `;
 
 const Form = styled.form`
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
 `;
 
 const InputContainer = styled.div`
@@ -114,13 +133,14 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: none;
+  /* border-radius: 4px; */
+  outline: none;
+  border-bottom: 2px solid darkgray;
   font-size: 16px;
   font-family: "SF-Regular";
   &:focus {
-    border-color: #007bff;
-    outline: none;
+    border-bottom-color: #212121;
   }
 `;
 
@@ -128,15 +148,15 @@ const RegisterButton = styled.button`
   width: 100%;
   padding: 10px;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
+  border-radius: 24px;
+  background-color: black;
   color: white;
   font-size: 18px;
   font-family: "SF-Heavy";
   cursor: pointer;
   transition: background-color 0.3s ease;
   &:hover {
-    background-color: #0056b3;
+    background-color: #3a3a3a;
   }
 `;
 

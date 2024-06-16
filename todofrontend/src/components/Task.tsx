@@ -2,22 +2,30 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { IoIosArrowForward } from "react-icons/io";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { changeStatus } from "../todoService";
+import { changeStatus, getCounts } from "../todoService";
 import { ToDo } from "../models/ToDo";
 
 interface TaskProps {
   todo: ToDo;
   onClick: () => void;
+  setCounts: React.Dispatch<React.SetStateAction<number[]>>;
+  userName: string | undefined;
 }
 
-const Task: React.FC<TaskProps> = ({ todo, onClick }) => {
+const Task: React.FC<TaskProps> = ({ todo, onClick, setCounts, userName }) => {
   const [isChecked, setIsChecked] = useState(todo.completed);
+
+  async function fetchCounts(userName: string | undefined) {
+    const response = await getCounts(userName);
+    setCounts(response);
+  }
 
   const handleCheckboxChange = async () => {
     const updatedTodo = await changeStatus(todo);
     todo.completed = !todo.completed;
     setIsChecked(updatedTodo.completed);
     console.log(updatedTodo);
+    fetchCounts(userName);
   };
 
   return (
@@ -30,7 +38,12 @@ const Task: React.FC<TaskProps> = ({ todo, onClick }) => {
             checked={isChecked}
             onChange={handleCheckboxChange}
           />
-          <Title completed={todo.completed}>{todo.title}</Title>
+          <Title
+            completed={todo.completed}
+            isNew={todo.title === "New Task..."}
+          >
+            {todo.title}
+          </Title>
         </div>
         <ArrowIcon />
       </Main>
@@ -116,10 +129,12 @@ const StyledCheckbox = styled.input`
   }
 `;
 
-const Title = styled.span<{ completed: boolean }>`
+const Title = styled.span<{ completed: boolean; isNew: boolean }>`
   /* margin-left: 8px; */
   font-size: 15px;
   text-decoration: ${({ completed }) => (completed ? "line-through" : "none")};
+  color: ${({ isNew }) => (isNew ? "#535353" : "black")};
+  font-family: ${({ isNew }) => (isNew ? "SF-Medium-italic" : "SF-Regular")};
 `;
 
 const ArrowIcon = styled(IoIosArrowForward)``;

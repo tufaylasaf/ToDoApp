@@ -1,7 +1,6 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 import { FaBars, FaPlus } from "react-icons/fa";
-import { IoSettingsOutline } from "react-icons/io5";
+import { FaRegUser } from "react-icons/fa6";
 import { PiSignOut } from "react-icons/pi";
 import MenuItem from "./MenuItem";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +10,8 @@ interface MenuProps {
   addTask: () => void;
   handleMenuItemClick: (name: string) => void;
   openMenu: boolean;
+  userName: string | undefined;
+  counts: number[];
 }
 
 const Menu: React.FC<MenuProps> = ({
@@ -18,6 +19,8 @@ const Menu: React.FC<MenuProps> = ({
   addTask,
   handleMenuItemClick,
   openMenu,
+  userName,
+  counts,
 }) => {
   const navigate = useNavigate();
 
@@ -34,40 +37,46 @@ const Menu: React.FC<MenuProps> = ({
       <Content>
         <Title>TASKS</Title>
         <MenuItem
-          name="All tasks"
+          name="All"
           color="black"
           selected={selectedMenuItem === "tAll"}
           onClick={() => handleMenuItemClick("tAll")}
+          total={counts[0] + counts[1]}
         />
         <MenuItem
           name="To Do"
           color="lightgray"
           selected={selectedMenuItem === "tTo Do"}
           onClick={() => handleMenuItemClick("tTo Do")}
+          total={counts[1]}
         />
         <MenuItem
           name="Completed"
           color="darkgray"
           selected={selectedMenuItem === "tCompleted"}
           onClick={() => handleMenuItemClick("tCompleted")}
+          total={counts[0]}
         />
         <MenuItem
           name="High"
           color="#ff4d4d"
           selected={selectedMenuItem === "pHigh"}
           onClick={() => handleMenuItemClick("pHigh")}
+          total={counts[4]}
         />
         <MenuItem
           name="Medium"
           color="#ffff5a"
           selected={selectedMenuItem === "pMedium"}
           onClick={() => handleMenuItemClick("pMedium")}
+          total={counts[3]}
         />
         <MenuItem
           name="Low"
           color="#42ff42"
           selected={selectedMenuItem === "pLow"}
           onClick={() => handleMenuItemClick("pLow")}
+          total={counts[1]}
         />
         <MenuButton onClick={addTask}>
           <PlusIcon />
@@ -96,8 +105,8 @@ const Menu: React.FC<MenuProps> = ({
       </Content>
       <Footer>
         <MenuButton>
-          <SettingsIcon />
-          <span>Settings</span>
+          <ProfileIcon />
+          <span>{userName}</span>
         </MenuButton>
         <MenuButton onClick={handleSignOut}>
           <SignOutIcon />
@@ -132,7 +141,6 @@ const Heading = styled.div`
   /* margin: 0px 15px; */
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
   height: 20%;
   /* background-color: aqua; */
@@ -158,7 +166,7 @@ const PlusIcon = styled(FaPlus)`
   margin-right: 8px;
 `;
 
-const SettingsIcon = styled(IoSettingsOutline)`
+const ProfileIcon = styled(FaRegUser)`
   font-size: 1.2em;
   cursor: pointer;
   color: #444;

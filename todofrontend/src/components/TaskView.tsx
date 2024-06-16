@@ -10,6 +10,8 @@ interface TaskViewProps {
   setSelectedTodo: React.Dispatch<React.SetStateAction<ToDo>>;
   setOpenTaskView: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  setCounts: React.Dispatch<React.SetStateAction<number[]>>;
+  userName: string | undefined;
 }
 
 const TaskView: React.FC<TaskViewProps> = ({
@@ -18,6 +20,8 @@ const TaskView: React.FC<TaskViewProps> = ({
   setSelectedTodo,
   setOpenTaskView,
   setOpenMenu,
+  setCounts,
+  userName,
 }) => {
   const heading: string = selectedMenuItem.slice(1);
 
@@ -37,6 +41,8 @@ const TaskView: React.FC<TaskViewProps> = ({
               setSelectedTodo(todo);
               setOpenTaskView(true);
             }}
+            setCounts={setCounts}
+            userName={userName}
           />
         ))}
       </Tasks>

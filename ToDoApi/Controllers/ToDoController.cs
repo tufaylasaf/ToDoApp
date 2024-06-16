@@ -97,5 +97,27 @@ namespace ToDoApi.Controllers
             }
             return NotFound();
         }
+
+        [HttpGet("GetCounts/{username}")]
+        public ActionResult<int[]> GetCounts(string username)
+        {
+            var userTodos = toDoDbContext.Items.Where(t => t.UserName == username).ToList();
+
+            if (userTodos == null || userTodos.Count == 0)
+            {
+                return NotFound("No todos found for the specified user.");
+            }
+
+            int completedCount = userTodos.Count(t => t.Completed);
+            int incompleteCount = userTodos.Count(t => !t.Completed);
+
+            int lowPriorityCount = userTodos.Count(t => t.Priority.Equals("Low", StringComparison.OrdinalIgnoreCase));
+            int mediumPriorityCount = userTodos.Count(t => t.Priority.Equals("Medium", StringComparison.OrdinalIgnoreCase));
+            int highPriorityCount = userTodos.Count(t => t.Priority.Equals("High", StringComparison.OrdinalIgnoreCase));
+
+            int[] counts = new int[] { completedCount, incompleteCount, lowPriorityCount, mediumPriorityCount, highPriorityCount };
+
+            return Ok(counts);
+        }
     }
 }

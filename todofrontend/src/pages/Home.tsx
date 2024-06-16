@@ -9,6 +9,7 @@ import {
   updateToDo,
   deleteToDo,
   getUser,
+  getCounts,
 } from "../todoService";
 import { ToDo } from "../models/ToDo";
 import { User } from "../models/User";
@@ -16,8 +17,8 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const newToDo: ToDo = {
-  title: "Edit Title",
-  description: "Edit Description",
+  title: "New Task...",
+  description: "",
   completed: false,
   priority: "Low",
   userName: "",
@@ -43,6 +44,8 @@ const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loggedInUser, setLoggedInUser] = useState<User | null>();
 
+  const [counts, setCounts] = useState<number[]>([]);
+
   const navigate = useNavigate();
 
   const handleSave = async () => {
@@ -51,6 +54,7 @@ const Home = () => {
     setFilteredTodos(
       filteredTodos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t))
     );
+    fetchCounts(loggedInUser?.userName);
     console.log("Save task", selectedTodo);
     toast.success("Changes Saved!");
     setopenTaskDetails(false);
@@ -63,6 +67,7 @@ const Home = () => {
     );
     setSelectedTodo(emptyToDo);
     setTodos(updatedTodos);
+    fetchCounts(loggedInUser?.userName);
     toast.success("Task Deleted!");
     setopenTaskDetails(false);
   };
@@ -75,6 +80,7 @@ const Home = () => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
     setFilteredTodos((prevTodos) => [...prevTodos, newTodo]);
     setopenTaskDetails(true);
+    fetchCounts(loggedInUser?.userName);
   };
 
   const handleMenuItemClick = (name: string) => {
@@ -100,6 +106,11 @@ const Home = () => {
     setopenMenu(false);
   };
 
+  async function fetchCounts(userName: string | undefined) {
+    const response = await getCounts(userName);
+    setCounts(response);
+  }
+
   useEffect(() => {
     async function fetchTodos(userName: string | undefined) {
       const fetchedTodos = await getToDos(userName);
@@ -119,6 +130,7 @@ const Home = () => {
       setIsAuthenticated(true);
       validateUser(token);
       fetchTodos(token);
+      fetchCounts(token);
     } else {
       toast.error("You need to Sign In!");
       navigate("/");
@@ -136,6 +148,8 @@ const Home = () => {
         addTask={handleAddToDo}
         handleMenuItemClick={handleMenuItemClick}
         openMenu={openMenu}
+        userName={loggedInUser?.userName}
+        counts={counts}
       />
       <TaskView
         todos={filteredTodos}
@@ -143,6 +157,8 @@ const Home = () => {
         setSelectedTodo={setSelectedTodo}
         setOpenTaskView={setopenTaskDetails}
         setOpenMenu={setopenMenu}
+        setCounts={setCounts}
+        userName={loggedInUser?.userName}
       />
       <TaskDetailed
         todo={selectedTodo}

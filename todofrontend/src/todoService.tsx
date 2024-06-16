@@ -1,9 +1,10 @@
 import toast from "react-hot-toast";
 import { ToDo } from "./models/ToDo";
 import { User } from "./models/User";
+import { error } from "console";
 
-const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net";
-// const API_BASE_URL = "http://localhost:5210";
+// const API_BASE_URL = "https://tufayltodoapi.azurewebsites.net";
+const API_BASE_URL = "http://localhost:5210";
 
 export const getToDos = async (
   userName: string | undefined
@@ -137,6 +138,19 @@ export const getUser = async (userName: string): Promise<User | null> => {
   if (!response.ok) {
     console.log(await response.text());
     return null;
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+export const getCounts = async (
+  userName: string | undefined
+): Promise<number[]> => {
+  const response = await fetch(`${API_BASE_URL}/ToDo/GetCounts/${userName}`);
+
+  if (!response.ok) {
+    console.log(await response.text());
   }
 
   const data = await response.json();
